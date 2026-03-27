@@ -1,0 +1,144 @@
+﻿date,time_approx,activity,order_in_day,category
+2026-01-01,morning,Apply 1 US / Big tech,1,Career
+2026-01-01,morning,Shower,2,Self-care
+2026-01-01,morning,Exercise,3,Health
+2026-01-02,morning,Sleep wo alarm,1,Health
+2026-01-02,midday,Exercise,2,Health
+2026-01-02,midday,Shower,3,Self-care
+2026-01-02,afternoon,Study,4,Learning
+2026-01-02,afternoon,Code Commit,5,Productivity
+2026-01-02,evening,Apply 1 US / Big tech,6,Career
+2026-01-02,evening,Read,7,Learning
+2026-01-02,evening,Leetcode,8,Learning
+2026-01-03,morning,Sleep wo alarm,1,Health
+2026-01-03,midday,Apply 1 US / Big tech,2,Career
+2026-01-03,afternoon,Code Commit,3,Productivity
+2026-01-03,afternoon,Exercise,4,Health
+2026-01-03,evening,Shower,5,Self-care
+2026-01-03,evening,Read,6,Learning
+2026-01-04,morning,Apply 1 US / Big tech,1,Career
+2026-01-04,midday,Leetcode,2,Learning
+2026-01-04,afternoon,Code Commit,3,Productivity
+2026-01-04,evening,Exercise,4,Health
+2026-01-04,evening,Shower,5,Self-care
+2026-01-05,morning,Apply 1 US / Big tech,1,Career
+2026-01-05,midday,Study,2,Learning
+2026-01-05,midday,Shower,3,Self-care
+2026-01-05,midday,Read,4,Learning
+2026-01-05,afternoon,Code Commit,5,Productivity
+2026-01-05,evening,Exercise,6,Health
+2026-01-06,morning,Study,1,Learning
+2026-01-06,morning,Code Commit,2,Productivity
+2026-01-06,midday,Apply 1 US / Big tech,3,Career
+2026-01-06,midday,Leetcode,4,Learning
+2026-01-06,afternoon,Exercise,5,Health
+2026-01-06,evening,Shower,6,Self-care
+2026-01-06,evening,Read,7,Learning
+2026-01-07,morning,Sleep wo alarm,1,Health
+2026-01-07,midday,Shower,2,Self-care
+2026-01-07,midday,Read,3,Learning
+2026-01-07,midday,Exercise,4,Health
+2026-01-07,afternoon,Leetcode,5,Learning
+2026-01-07,afternoon,Code Commit,6,Productivity
+2026-01-07,afternoon,Study,7,Learning
+2026-01-07,evening,Apply 1 US / Big tech,8,Career
+2026-01-08,morning,Sleep wo alarm,1,Health
+2026-01-08,morning,Write,2,Productivity
+2026-01-08,midday,Shower,3,Self-care
+2026-01-08,midday,Read,4,Learning
+2026-01-08,afternoon,Code Commit,5,Productivity
+2026-01-08,afternoon,Leetcode,6,Learning
+2026-01-08,afternoon,Assignment,7,Learning
+2026-01-08,evening,Exercise,8,Health
+2026-01-08,evening,Apply 1 US / Big tech,9,Career
+2026-01-08,evening,Study,10,Learning
+2026-01-09,morning,Shower,1,Self-care
+2026-01-09,morning,Read,2,Learning
+2026-01-09,midday,Study,3,Learning
+2026-01-09,midday,Apply 1 US / Big tech,4,Career
+2026-01-09,afternoon,Leetcode,5,Learning
+2026-01-09,evening,Exercise,6,Health
+2026-01-09,evening,Code Commit,7,Productivity
+2026-01-10,morning,Sleep wo alarm,1,Health
+2026-01-10,morning,Assignment,2,Learning
+2026-01-10,midday,Exercise,3,Health
+2026-01-10,afternoon,Shower,4,Self-care
+2026-01-10,afternoon,Code Commit,5,Productivity
+2026-01-10,afternoon,Study,6,Learning
+2026-01-10,evening,Leetcode,7,Learning
+2026-01-10,evening,Apply 1 US / Big tech,8,Career
+2026-01-11,morning,Shower,1,Self-care
+2026-01-11,morning,Write,2,Productivity
+2026-01-11,afternoon,Code Commit,3,Productivity
+2026-01-11,evening,Apply 1 US / Big tech,4,Career
+2026-01-12,morning,Leetcode,1,Learning
+2026-01-12,morning,Read,2,Learning
+2026-01-12,midday,Code Commit,3,Productivity
+2026-01-12,afternoon,Assignment,4,Learning
+2026-01-12,afternoon,Apply 1 US / Big tech,5,Career
+2026-01-12,evening,Shower,6,Self-care
+2026-01-12,evening,Exercise,7,Health
+2026-01-13,morning,Read,1,Learning
+2026-01-13,midday,Assignment,2,Learning
+2026-01-13,midday,Code Commit,3,Productivity
+2026-01-13,midday,Leetcode,4,Learning
+2026-01-13,afternoon,Study,5,Learning
+2026-01-13,evening,Shower,6,Self-care
+2026-01-14,morning,Read,1,Learning
+2026-01-14,midday,Assignment,2,Learning
+2026-01-14,midday,Shower,3,Self-care
+2026-01-14,midday,Code Commit,4,Productivity
+2026-01-14,midday,Write,5,Productivity
+2026-01-14,afternoon,Apply 1 US / Big tech,6,Career
+2026-01-14,evening,Exercise,7,Health
+2026-01-14,evening,Leetcode,8,Learning
+2026-01-15,morning,Sleep wo alarm,1,Health
+2026-01-15,morning,Shower,2,Self-care
+2026-01-15,midday,Apply 1 US / Big tech,3,Career
+2026-01-15,afternoon,Assignment,4,Learning
+2026-01-15,afternoon,Code Commit,5,Productivity
+2026-01-15,evening,Exercise,6,Health
+2026-01-15,evening,Leetcode,7,Learning
+2026-01-16,morning,Read,1,Learning
+2026-01-16,morning,Shower,2,Self-care
+2026-01-16,midday,Assignment,3,Learning
+2026-01-16,midday,Study,4,Learning
+2026-01-16,midday,Leetcode,5,Learning
+2026-01-16,afternoon,Code Commit,6,Productivity
+2026-01-16,evening,Apply 1 US / Big tech,7,Career
+2026-01-16,evening,Write,8,Productivity
+2026-01-17,morning,Sleep wo alarm,1,Health
+2026-01-17,midday,Assignment,2,Learning
+2026-01-17,midday,Code Commit,3,Productivity
+2026-01-17,midday,Leetcode,4,Learning
+2026-01-17,afternoon,Shower,5,Self-care
+2026-01-17,afternoon,Exercise,6,Health
+2026-01-18,morning,Apply 1 US / Big tech,1,Career
+2026-01-18,midday,Code Commit,2,Productivity
+2026-01-18,afternoon,Shower,3,Self-care
+2026-01-18,evening,Assignment,4,Learning
+2026-01-18,evening,Leetcode,5,Learning
+2026-01-18,evening,Study,6,Learning
+2026-01-19,morning,Read,1,Learning
+2026-01-19,morning,Shower,2,Self-care
+2026-01-19,midday,Apply 1 US / Big tech,3,Career
+2026-01-19,midday,Assignment,4,Learning
+2026-01-19,afternoon,Code Commit,5,Productivity
+2026-01-19,afternoon,Write,6,Productivity
+2026-01-20,morning,Study,1,Learning
+2026-01-20,morning,Assignment,2,Learning
+2026-01-20,morning,Read,3,Learning
+2026-01-20,midday,Shower,4,Self-care
+2026-01-20,afternoon,Write,5,Productivity
+2026-01-20,evening,Apply 1 US / Big tech,6,Career
+2026-01-20,evening,Code Commit,7,Productivity
+2026-01-21,morning,Shower,1,Self-care
+2026-01-21,morning,Read,2,Learning
+2026-01-21,midday,Apply 1 US / Big tech,3,Career
+2026-01-21,afternoon,Code Commit,4,Productivity
+2026-01-21,evening,Assignment,5,Learning
+2026-01-21,evening,Write,6,Productivity
+2026-01-21,evening,Study,7,Learning
+2026-01-22,morning,Shower,1,Self-care
+2026-01-22,midday,Assignment,2,Learning
+2026-01-22,midday,Code Commit,3,Productivity

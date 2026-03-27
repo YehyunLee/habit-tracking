@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Habit Atlas</title>
+    <meta
+      name="description"
+      content="An interactive D3.js field guide to 76 days of habits, streaks, and routines."
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="page-shell">
+      <section class="intro-page">
+        <section class="story-scroll" aria-label="Scroll-driven narrative walkthrough">
+          <div class="story-viewport" id="story-viewport">
+            <div class="story-stage-copy" id="story-stage-copy" data-scene-tone="title">
+              <p class="section-kicker" id="story-stage-kicker" hidden></p>
+              <h2 id="story-stage-title">Habit Atlas</h2>
+              <p class="story-subtitle" id="story-stage-subtitle" hidden></p>
+              <p class="story-copy" id="story-stage-text" hidden></p>
+            </div>
+            <p class="story-scroll-cue" id="story-scroll-cue">Scroll through Thomas's semester</p>
+            <div class="story-progress" id="story-progress" aria-hidden="true"></div>
+            <div
+              id="story-stage-chart"
+              class="chart-block story-stage-chart"
+              aria-live="polite"
+            ></div>
+          </div>
+
+          <div class="story-steps" id="story-step-list"></div>
+        </section>
+
+        <section class="story-outro panel">
+          <div class="story-outro-head">
+            <div>
+              <p class="section-kicker">After The Intro</p>
+              <h2>Explore Thomas' Habit Atlas</h2>
+            </div>
+            <a href="#atlas-page" class="chip intro-link">Explore The Dashboard</a>
+          </div>
+          <p class="story-outro-copy">
+            The scroll above introduces the main arc of Thomas's semester. The atlas
+            below opens the full record for closer viewing across time, categories,
+            and individual January days.
+          </p>
+          <div class="hero-grid" id="hero-stats"></div>
+          <div id="global-insights" class="reading-list story-notes"></div>
+        </section>
+
+        <footer class="footer panel">
+          <div>
+            <p class="section-kicker">Acknowledgments</p>
+            <p class="footer-copy">
+              Data source: personal daily habit tracker from Jan 1 to Mar 17,
+              2026, paired with a more detailed January diary log. Built with
+              D3.js for CSC316 Assignment 3. Visual inspiration comes from
+              contribution grids, annotated explorable dashboards, and habit
+              journaling interfaces.
+            </p>
+          </div>
+        </footer>
+      </section>
+
+      <main class="viz-page" id="atlas-page">
+        <section class="panel control-panel">
+          <div>
+            <p class="section-kicker">Jump Through Time</p>
+            <div class="chip-row" id="range-controls"></div>
+          </div>
+          <div>
+            <p class="section-kicker">Narrative Stops</p>
+            <div class="chip-row" id="story-controls"></div>
+          </div>
+          <div>
+            <p class="section-kicker">Filter By Category</p>
+            <div class="chip-row" id="category-controls"></div>
+          </div>
+          <div class="playback-panel">
+            <div class="playback-head">
+              <p class="section-kicker">Story Mode</p>
+              <p class="microcopy" id="playback-copy"></p>
+            </div>
+            <div class="playback-toolbar">
+              <button id="play-toggle" class="chip" type="button">Play</button>
+              <button id="play-restart" class="chip" type="button">Restart</button>
+              <div class="chip-row" id="speed-controls"></div>
+            </div>
+            <div class="playback-scrub">
+              <input id="playback-slider" type="range" min="0" max="0" value="0">
+              <div class="playback-meta">
+                <span id="playback-window"></span>
+                <span id="playback-date"></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="dashboard">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="section-kicker">Overview</p>
+                <h2>Daily Score Over Time</h2>
+              </div>
+              <p class="microcopy" id="overview-caption"></p>
+            </div>
+            <div id="overview-chart" class="chart-block"></div>
+          </div>
+
+          <aside class="panel detail-panel">
+            <div class="panel-head">
+              <div>
+                <p class="section-kicker">Selection</p>
+                <h2>Current Focus</h2>
+              </div>
+            </div>
+            <div id="selection-summary" class="selection-summary"></div>
+            <div id="stat-grid" class="stat-grid"></div>
+          </aside>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="section-kicker">Main Graphic</p>
+              <h2>Habit Completion Matrix</h2>
+            </div>
+            <p class="microcopy" id="matrix-context"></p>
+          </div>
+          <div class="legend-row" id="matrix-legend"></div>
+          <div class="matrix-scroll">
+            <div id="matrix-chart" class="chart-block"></div>
+          </div>
+        </section>
+
+        <section class="analysis-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="section-kicker">Category Balance</p>
+                <h2>Category Load By Day</h2>
+              </div>
+              <p class="microcopy" id="category-copy"></p>
+            </div>
+            <div class="legend-row" id="category-legend"></div>
+            <div id="category-chart" class="chart-block"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="section-kicker">Relationships</p>
+                <h2>Habit Connection Map</h2>
+              </div>
+              <p class="microcopy" id="constellation-copy"></p>
+            </div>
+            <div id="constellation-chart" class="chart-block"></div>
+          </section>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="section-kicker">Selected Day</p>
+              <h2>January Day Timeline</h2>
+            </div>
+            <p class="microcopy">Detailed activity sequence is available for Jan 1 to Jan 22.</p>
+          </div>
+          <div id="sequence-view" class="sequence-view"></div>
+        </section>
+      </main>
+    </div>
+
+    <div id="tooltip" class="tooltip" role="status" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
