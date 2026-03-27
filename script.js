@@ -975,10 +975,17 @@ function renderStoryMatrixChart(host, visual, animate) {
   const habits = model.habits;
   const containerWidth = Math.max(host.getBoundingClientRect().width, 460);
   const margin = { top: 54, right: 18, bottom: 34, left: 132 };
-  const cellSize = Math.max(
-    18,
+  // Match .story-stage-chart max-height so the full grid (all habits) stays visible.
+  const maxChartHeight = Math.min(window.innerHeight * 0.62, 680);
+  let cellSize = Math.max(
+    10,
     Math.min(34, Math.floor((containerWidth - margin.left - margin.right) / days.length))
   );
+  let totalChartHeight = margin.top + margin.bottom + habits.length * cellSize;
+  while (totalChartHeight > maxChartHeight - 6 && cellSize > 10) {
+    cellSize -= 1;
+    totalChartHeight = margin.top + margin.bottom + habits.length * cellSize;
+  }
   const width = margin.left + margin.right + days.length * cellSize;
   const height = margin.top + margin.bottom + habits.length * cellSize;
   const svg = d3
