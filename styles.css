@@ -284,7 +284,13 @@ body::before {
 }
 
 .story-step {
-  min-height: 80vh;
+  min-height: 86vh;
+}
+
+/* Extra scroll distance after Chapter 4 so Chapter 5 and Full view register before the outro. */
+.story-step:nth-child(6),
+.story-step:nth-child(7) {
+  min-height: 100vh;
 }
 
 .story-step:first-child,
@@ -1233,7 +1239,12 @@ svg {
   }
 
   .story-step {
-    min-height: 86vh;
+    min-height: 88vh;
+  }
+
+  .story-step:nth-child(6),
+  .story-step:nth-child(7) {
+    min-height: 100vh;
   }
 
   .story-step:first-child,

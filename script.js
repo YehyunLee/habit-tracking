@@ -92,7 +92,9 @@ const refs = {
   storyScroller: null,
   resizeTimer: null,
   playbackTimer: null,
-  storyObserver: null,
+  storyScrollRaf: null,
+  storyScrollCleanup: null,
+  storyScrollSyncAfterLockTimer: null,
   storyChartTimer: null,
   storySwapTimer: null,
   storyChartDelayTimer: null,
@@ -119,7 +121,7 @@ Promise.all([
     renderCategoryLegend();
     renderReadingPanel();
     renderStoryScroller();
-    initStoryObserver();
+    initStoryScrollSpy();
     renderOverview();
     refreshPanels();
 
@@ -127,7 +129,7 @@ Promise.all([
       window.clearTimeout(refs.resizeTimer);
       refs.resizeTimer = window.setTimeout(() => {
         renderStoryScroller();
-        initStoryObserver();
+        initStoryScrollSpy();
         renderOverview();
         refreshPanels();
       }, 120);
@@ -549,58 +551,127 @@ function renderStoryProgress(scenes) {
     .attr("class", "story-progress-step");
 }
 
-function initStoryObserver() {
-  if (refs.storyObserver) {
-    refs.storyObserver.disconnect();
+/**
+ * Which story step should be active based on scroll position.
+ * Uses a horizontal "activation line" so fast scroll still lands on the correct
+ * chapter (the old IntersectionObserver only moved one step per callback).
+ */
+function getActiveStoryIndexFromScroll() {
+  const steps = Array.from(document.querySelectorAll(".story-step"));
+  if (!steps.length) {
+    return 0;
   }
 
-  const steps = Array.from(document.querySelectorAll(".story-step"));
+  const lineY = window.innerHeight * 0.4;
+  let bestIdx = 0;
+  let bestDist = Infinity;
+
+  for (let i = 0; i < steps.length; i += 1) {
+    const rect = steps[i].getBoundingClientRect();
+    if (rect.top <= lineY && rect.bottom >= lineY) {
+      const center = rect.top + rect.height / 2;
+      const dist = Math.abs(center - lineY);
+      if (dist < bestDist) {
+        bestDist = dist;
+        bestIdx = i;
+      }
+    }
+  }
+
+  if (bestDist !== Infinity) {
+    return bestIdx;
+  }
+
+  const firstRect = steps[0].getBoundingClientRect();
+  if (lineY < firstRect.top) {
+    return 0;
+  }
+
+  const lastRect = steps[steps.length - 1].getBoundingClientRect();
+  if (lineY > lastRect.bottom) {
+    return steps.length - 1;
+  }
+
+  for (let i = 0; i < steps.length; i += 1) {
+    const rect = steps[i].getBoundingClientRect();
+    const center = rect.top + rect.height / 2;
+    const dist = Math.abs(center - lineY);
+    if (dist < bestDist) {
+      bestDist = dist;
+      bestIdx = i;
+    }
+  }
+
+  return bestIdx;
+}
+
+function requestStoryScrollUpdate() {
+  if (refs.storyScrollRaf !== null) {
+    return;
+  }
+  refs.storyScrollRaf = window.requestAnimationFrame(() => {
+    refs.storyScrollRaf = null;
+    syncStorySceneToScroll();
+  });
+}
+
+function syncStorySceneToScroll() {
+  if (!refs.storyScroller?.scenes?.length) {
+    return;
+  }
+
+  if (Date.now() < refs.storySceneLockUntil) {
+    return;
+  }
+
+  const idx = Math.max(
+    0,
+    Math.min(refs.storyScroller.scenes.length - 1, getActiveStoryIndexFromScroll())
+  );
+  const scene = refs.storyScroller.scenes[idx];
+  if (!scene || scene.id === refs.storyScroller.activeSceneId) {
+    return;
+  }
+
+  const prevIdx = refs.storyScroller.scenes.findIndex(
+    (entry) => entry.id === refs.storyScroller.activeSceneId
+  );
+  const delta = prevIdx < 0 ? 1 : Math.abs(idx - prevIdx);
+  const useMotion = delta === 1 && !prefersReducedMotion;
+
+  activateStoryScene(scene.id, useMotion);
+}
+
+function initStoryScrollSpy() {
+  if (refs.storyScrollCleanup) {
+    refs.storyScrollCleanup();
+    refs.storyScrollCleanup = null;
+  }
+
+  const steps = document.querySelectorAll(".story-step");
   if (!steps.length) {
     return;
   }
 
-  if (!("IntersectionObserver" in window)) {
-    activateStoryScene(steps[0].dataset.scene, false);
-    return;
-  }
+  const onScrollOrResize = () => {
+    requestStoryScrollUpdate();
+  };
 
-  refs.storyObserver = new IntersectionObserver(
-    (entries) => {
-      if (Date.now() < refs.storySceneLockUntil) {
-        return;
-      }
+  window.addEventListener("scroll", onScrollOrResize, { passive: true });
+  window.addEventListener("resize", onScrollOrResize);
 
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((left, right) => right.intersectionRatio - left.intersectionRatio);
-
-      if (visible.length) {
-        const currentIndex = refs.storyScroller?.scenes.findIndex(
-          (scene) => scene.id === refs.storyScroller?.activeSceneId
-        ) ?? 0;
-        const targetIndex = refs.storyScroller?.scenes.findIndex(
-          (scene) => scene.id === visible[0].target.dataset.scene
-        ) ?? currentIndex;
-        const clampedIndex = Math.max(
-          0,
-          Math.min(
-            refs.storyScroller.scenes.length - 1,
-            currentIndex + Math.sign(targetIndex - currentIndex)
-          )
-        );
-
-        activateStoryScene(refs.storyScroller.scenes[clampedIndex].id, true);
-      }
-    },
-    {
-      root: null,
-      threshold: [0.25, 0.45, 0.7],
-      rootMargin: "-12% 0px -26% 0px",
+  refs.storyScrollCleanup = () => {
+    window.removeEventListener("scroll", onScrollOrResize);
+    window.removeEventListener("resize", onScrollOrResize);
+    window.clearTimeout(refs.storyScrollSyncAfterLockTimer);
+    refs.storyScrollSyncAfterLockTimer = null;
+    if (refs.storyScrollRaf !== null) {
+      window.cancelAnimationFrame(refs.storyScrollRaf);
+      refs.storyScrollRaf = null;
     }
-  );
+  };
 
-  steps.forEach((step) => refs.storyObserver.observe(step));
-  activateStoryScene(refs.storyScroller?.activeSceneId || steps[0].dataset.scene, false);
+  syncStorySceneToScroll();
 }
 
 function activateStoryScene(sceneId, animate = true) {
@@ -615,7 +686,12 @@ function activateStoryScene(sceneId, animate = true) {
 
   const shouldAnimate = animate && refs.storyScroller.activeSceneId !== scene.id;
   if (shouldAnimate) {
-    refs.storySceneLockUntil = Date.now() + 900;
+    refs.storySceneLockUntil = Date.now() + 720;
+    window.clearTimeout(refs.storyScrollSyncAfterLockTimer);
+    refs.storyScrollSyncAfterLockTimer = window.setTimeout(() => {
+      refs.storyScrollSyncAfterLockTimer = null;
+      syncStorySceneToScroll();
+    }, 740);
   }
   refs.storyScroller.activeSceneId = scene.id;
   const viewport = document.getElementById("story-viewport");
